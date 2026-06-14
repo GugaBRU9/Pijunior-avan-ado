@@ -69,3 +69,34 @@ checkout.click()
 driver.find_element("id","first-name").send_keys("Trainee")
 driver.find_element("id","last-name").send_keys("PiJunior")
 driver.find_element("id","postal-code").send_keys("31270-901")
+
+
+## Clicando no botão de continuar a compra
+button_continue = driver.find_element("id","continue")
+driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button_continue)
+WebDriverWait(driver, 10).until(ec.element_to_be_clickable(button_continue))
+
+button_continue.click()
+
+## Raspando informações da compra em uma lista, primeiro valor se refere ao meio de pagamento e o segundo a forma de entrega
+lista=driver.find_elements("class name","summary_value_label")
+
+## Mostra o meio de pagamento
+print(lista[0])
+
+## Mostra a forma de entrega
+print(lista[1])
+
+## Obtem o valor total da compra
+quantia_total=driver.find_element("class name","summary_total_label").text
+
+## Clicar no botão finish
+
+button_finish = driver.find_element("id","finish")
+driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button_finish)
+WebDriverWait(driver, 10).until(ec.element_to_be_clickable(button_finish))
+
+button_finish.click()
+
+## Obtem a mensagem de confirmação da compra
+mensagem_conf=driver.find_element("class name","complete-text").text
