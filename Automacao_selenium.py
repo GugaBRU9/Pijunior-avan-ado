@@ -15,10 +15,22 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 
 driver = webdriver.Chrome(options=chrome_options)
 
+## Função para procurar e clicar nos botões da página
+def button_search(button):
+    ## Verifica a localização do botão na página
+    driver.execute_script(
+        "arguments[0].scrollIntoView({block: 'center'});",
+        button
+    )
+    ## Aguarda 10 segundos até o botão ser pressionavel
+    WebDriverWait(driver, 10).until(
+        ec.element_to_be_clickable(button)
+    )
+    ## Clica o botão especificado
+    button.click()
 
+## Acessa o site saucedemo
 driver.get("https://www.saucedemo.com")
-
-#driver.find_element("id","login_credentials").text
 
 ## Acessa os espaços para login e coloca os dados
 driver.find_element("id","user-name").send_keys("standard_user")
@@ -37,17 +49,7 @@ buttons = driver.find_elements(
 )
 
 for button in buttons:
-    ## Move a tela até aparecer o botão
-    driver.execute_script(
-        "arguments[0].scrollIntoView({block: 'center'});",
-        button
-    )
-    ## Aguarda 10 segundos até que o botão esteja clicável
-    WebDriverWait(driver, 10).until(
-        ec.element_to_be_clickable(button)
-    )
-
-    button.click()
+    button_search(button)
 
   
 ## Abre o carrinho
@@ -58,11 +60,7 @@ driver.find_element("class name","shopping_cart_link").click()
 ## Abre a página de checkout
 checkout = driver.find_element("id","checkout")
 
-driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", checkout)
-
-WebDriverWait(driver, 10).until(ec.element_to_be_clickable(checkout))
-
-checkout.click()
+button_search(checkout)
 
 
 ## Preenche as informações do checkout
@@ -74,10 +72,7 @@ driver.find_element("id","postal-code").send_keys("31270-901")
 
 ## Clicando no botão de continuar a compra
 button_continue = driver.find_element("id","continue")
-driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button_continue)
-WebDriverWait(driver, 10).until(ec.element_to_be_clickable(button_continue))
-
-button_continue.click()
+button_search(button_continue)
 
 ## Raspando informações da compra em uma lista, primeiro valor se refere ao meio de pagamento e o segundo a forma de entrega
 lista=driver.find_elements("class name","summary_value_label")
@@ -94,10 +89,7 @@ quantia_total=driver.find_element("class name","summary_total_label").text
 ## Clicar no botão finish
 
 button_finish = driver.find_element("id","finish")
-driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", button_finish)
-WebDriverWait(driver, 10).until(ec.element_to_be_clickable(button_finish))
-
-button_finish.click()
+button_search(button_finish)
 
 ## Obtem a mensagem de confirmação da compra
 mensagem_conf=driver.find_element("class name","complete-text").text
