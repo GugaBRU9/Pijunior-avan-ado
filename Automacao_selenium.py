@@ -5,6 +5,7 @@ import time
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.chrome.options import Options
 
 # Abrir o navegador
 chrome_options = Options()
@@ -82,10 +83,10 @@ button_continue.click()
 lista=driver.find_elements("class name","summary_value_label")
 
 ## Mostra o meio de pagamento
-print(lista[0])
+print(lista[0].text)
 
 ## Mostra a forma de entrega
-print(lista[1])
+print(lista[1].text)
 
 ## Obtem o valor total da compra
 quantia_total=driver.find_element("class name","summary_total_label").text
