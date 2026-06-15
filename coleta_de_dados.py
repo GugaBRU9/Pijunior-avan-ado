@@ -1,5 +1,4 @@
 import pandas
-import time
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -36,21 +35,3 @@ for p in precos:
 
 for n in nomes:
     dicionario["nome"].append(n.text)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-time.sleep(5)
-
